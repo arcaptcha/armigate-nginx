@@ -1,0 +1,43 @@
+ngx_addon_name=ngx_http_armigate_shield_module
+
+ARM_AUTH_MODULE="ngx_http_armigate_auth_module"
+ARM_AUTH_SRC="$ngx_addon_dir/ngx_http_armigate_auth_module.c"
+
+ARM_SHIELD_MODULE="ngx_http_armigate_shield_module"
+ARM_SHIELD_SRC="$ngx_addon_dir/ngx_http_armigate_shield_module.c"
+
+if [ "$ngx_module_link" = DYNAMIC ]; then
+
+    ngx_module_name="$ARM_AUTH_MODULE"
+    ngx_module_srcs="$ARM_AUTH_SRC"
+    . auto/module
+
+    ngx_module_name="$ARM_SHIELD_MODULE"
+    ngx_module_srcs="$ARM_SHIELD_SRC"
+    . auto/module
+
+elif [ "$ngx_module_link" = ADDON ]; then
+    ngx_module_type=HTTP
+    ngx_module_name=$ARM_AUTH_MODULE
+    ngx_module_srcs=$ARM_AUTH_SRC
+    . auto/module
+
+    ngx_module_type=HTTP
+    ngx_module_name=$ARM_SHIELD_MODULE
+    ngx_module_srcs=$ARM_SHIELD_SRC
+    . auto/module
+
+else
+    HTTP_MODULES="$HTTP_MODULES $ARM_AUTH_MODULE $ARM_SHIELD_MODULE"
+
+    NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ARM_AUTH_SRC $ARM_SHIELD_SRC"
+fi
+
+if [ $USE_PCRE = DISABLED ]; then
+   cat << END
+   $0: warning: the Armigate module require PCRE for MIME based filtering, \
+you can use it without PCRE but some feature is missed.
+END
+else
+    USE_PCRE=YES
+fi

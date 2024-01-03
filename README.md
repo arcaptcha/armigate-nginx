@@ -19,6 +19,7 @@ apt-get autoremove
 #### install.sh:
 
 ```shell
+armigate_version=v0.0.1-beta
 # Create a temporary directory to work in
 tmp_dir=$(mktemp -d -t armigate-XXXXXXXXXX)
 echo $tmp_dir
@@ -32,7 +33,7 @@ tar -C ${tmp_dir} -xzf ${tmp_dir}/nginx-${nginx_version}.tar.gz
 
 # Download and untar module sources
 // todo
-curl -sLo ${tmp_dir}/armigate_nginx_module.tar.gz https://github.com/arcaptcha/armigate-nginx
+curl -sLo ${tmp_dir}/armigate_nginx_module.tar.gz https://github.com/arcaptcha/armigate-nginx/archive/refs/tags/${armigate_version}.tar.gz
 tar -C ${tmp_dir} -zxf ${tmp_dir}/armigate_nginx_module.tar.gz
 
 # Get the name of the module directory

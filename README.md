@@ -1,6 +1,9 @@
 # ARMigate Nginx Module
 
-// tooo
+Before the regular Nginx process, the module makes a call to the ARMigate API using a keep-alive connection.
+
+Depending on the API response, the module will either block the query or let Nginx continue the regular process.
+The module has been developed to protect user experience as if any error was to occur during the process or if the timeout was reached, the module would automatically disable its blocking process and allow those requests.
 
 ## Installation
 
@@ -32,7 +35,6 @@ curl -sLo ${tmp_dir}/nginx-${nginx_version}.tar.gz http://nginx.org/download/ngi
 tar -C ${tmp_dir} -xzf ${tmp_dir}/nginx-${nginx_version}.tar.gz
 
 # Download and untar module sources
-// todo
 curl -sLo ${tmp_dir}/armigate_nginx_module.tar.gz https://github.com/arcaptcha/armigate-nginx/archive/refs/tags/${armigate_version}.tar.gz
 tar -C ${tmp_dir} -zxf ${tmp_dir}/armigate_nginx_module.tar.gz
 

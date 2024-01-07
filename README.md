@@ -68,7 +68,17 @@ nginx -t
 
 ### Docker
 
-// todo
+You can use `armigate-nginx` docker image as source of your Dockerfiles:
+
+```Dockerfile
+FROM arcaptcha/armigate-nginx:0.1.0
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+COPY index.html /etc/nginx/html/
+
+EXPOSE 80
+```
 
 ## Configuration
 

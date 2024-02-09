@@ -99,6 +99,7 @@ http {
   }
 
   server {
+    subrequest_output_buffer_size 24k;
     [...]
   
     armigate_auth @armigate;

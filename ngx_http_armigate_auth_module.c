@@ -467,11 +467,7 @@ ngx_http_armigate_auth_handler(ngx_http_request_t *r) {
         }
 
         switch (ctx->subrequest->headers_out.status) {
-            case NGX_HTTP_MOVED_PERMANENTLY:
-            case NGX_HTTP_MOVED_TEMPORARILY:
-            case NGX_HTTP_UNAUTHORIZED:
             case NGX_HTTP_FORBIDDEN:
-
                 part = &ctx->subrequest->headers_out.headers.part;
                 header = part->elts;
                 r->keepalive = 0;
@@ -595,11 +591,9 @@ ngx_http_armigate_auth_handler(ngx_http_request_t *r) {
                 return NGX_DONE;
 
             case NGX_HTTP_OK:
-
                 return NGX_OK;
 
             default:
-
                 ngx_log_error(armigate_ngx_log_level, r->main->connection->log, 0,
                               "Armigate auth request unexpected status: %d, pass",
                               ctx->subrequest->headers_out.status);

@@ -173,6 +173,10 @@ static ngx_int_t ngx_http_armigate_shield_http_variable_http_sec_fetch_user(ngx_
                                                                             ngx_http_variable_value_t *v,
                                                                             uintptr_t data);
 
+static ngx_int_t ngx_http_armigate_shield_http_variable_http_fp(ngx_http_request_t *r,
+                                                                ngx_http_variable_value_t *v,
+                                                                uintptr_t data);
+
 static ngx_int_t ngx_http_armigate_shield_http_variable_header_length(ngx_http_request_t *r,
                                                                       ngx_http_variable_value_t *v, ngx_str_t *var,
                                                                       ngx_list_part_t *part);
@@ -436,6 +440,10 @@ static ngx_http_variable_t ngx_http_armigate_shield_vars[] = {
                 ngx_http_armigate_shield_http_variable_http_sec_fetch_user,
                                                                               0, NGX_HTTP_VAR_NOHASH, 0},
 
+        {ngx_string("armigate_http_fp"),              NULL,
+                ngx_http_armigate_shield_http_variable_http_fp,
+                                                                              0, NGX_HTTP_VAR_NOHASH, 0},
+
         {ngx_null_string,                                         NULL, NULL, 0, 0,                   0}
 };
 
@@ -444,6 +452,7 @@ static ngx_keyval_t ngx_http_armigate_params[] = {
         {ngx_string("Key"),                    ngx_string("$armigate_key")},
         {ngx_string("UserAgent"),              ngx_string("$armigate_http_user_agent")},
         {ngx_string("IP"),                     ngx_string("$remote_addr")},
+        {ngx_string("FP"),                     ngx_string("$armigate_http_fp")},
         {ngx_string("Port"),                   ngx_string("$remote_port")},
         {ngx_string("ClientID"),               ngx_string("$armigate_client_id")},
         {ngx_string("Host"),                   ngx_string("$armigate_http_host")},
@@ -1180,6 +1189,13 @@ ngx_http_armigate_shield_http_variable_http_sec_fetch_user(ngx_http_request_t *r
     return ngx_http_armigate_shield_http_variable_unknown_header(r, v, &var, &r->main->headers_in.headers.part, 8, 0);
 }
 
+static ngx_int_t
+ngx_http_armigate_shield_http_variable_http_fp(ngx_http_request_t *r,
+                                               ngx_http_variable_value_t *v, uintptr_t data) {
+    ngx_str_t var = ngx_string("fp");
+
+    return ngx_http_armigate_shield_http_variable_unknown_header(r, v, &var, &r->main->headers_in.headers.part, 512, 0);
+}
 
 static ngx_int_t
 ngx_http_armigate_shield_http_variable_length(ngx_http_request_t *r,
